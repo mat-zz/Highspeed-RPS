@@ -28,11 +28,11 @@ class ResultViewController :UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        resultLabel?.text = "Result" + String(resultN!)
+        resultLabel?.text = "Result:" + String(resultN!)
         
-        getpHighScore = userDefaults.array(forKey: "pHighScore") as? Int
+        getpHighScore? = (userDefaults.array(forKey: "pHighScore") as! Int)
         
-        highScoreLabel?.text = "HighScore: "+String(getpHighScore)
+        highScoreLabel?.text = "HighScore:" + String(getpHighScore)
         
         
     }

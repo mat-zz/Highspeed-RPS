@@ -28,11 +28,9 @@ class ViewController: UIViewController {
     
     var winNum: Int = 0
     
-    var s :Int!
-    var ms:Int!
     
     
-    @IBOutlet var timeLabel:UILabel?
+    @IBOutlet var timeLabel:UILabel!
     @IBOutlet var startButton:UIButton?
     @IBOutlet var oppHand:UIImageView?
     @IBOutlet var pHand:UIButton?
@@ -43,7 +41,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib
-        timeLabel?.text = "Time: 00:00"
+        timeLabel!.text = "00:00"
         winTotal?.text = "Total:0"
         imgArray.append(Pimg)
         imgArray.append(Rimg)
@@ -54,9 +52,9 @@ class ViewController: UIViewController {
         
         if segue.identifier == "resultV" {
             
-            let resultViewController = segue.destination as! ResultViewController
+            let next = segue.destination as? ResultViewController
 
-            resultViewController.resultN = sender as! Int
+            next!.resultN? = sender as! Int
             
         }
         
@@ -74,9 +72,8 @@ class ViewController: UIViewController {
         oppHand?.image = imgArray[oppHandNum]
         
         startNum = Date().timeIntervalSince1970
-        timeLabel?.text = "Total:30.00"
-        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: true)
-        
+        timeLabel.text = "30.00"
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: true)
         
         
     }
@@ -85,23 +82,24 @@ class ViewController: UIViewController {
 
     
     
-    @objc func timerUpdate(){
+    @objc func timerUpdate(timer: Timer){
         
-        let elapsedTime = Date().timeIntervalSince1970 - startNum
-        
-        let flooredErapsedTime = Int(floor(elapsedTime))
-        
-        let leftTime = 30 - flooredErapsedTime
-        
-        let displayString = NSString(format: "%02d:%02d", leftTime) as String
-        
-        timeLabel?.text = "Total:" + displayString
+        let dateF:DateFormatter = DateFormatter()
+        dateF.dateFormat = "ss.SS"
         
         
-        if (leftTime == 00){
+        let dateT:Date = dateF.date(from: (timeLabel!.text)!)!
+        
+        var dup2 = Date(timeInterval: -0.1, since: dateT)
+        
+        self.timeLabel!.text = dateF.string(from: dup2)
+        
+        
+        
+        if (self.timeLabel?.text == "00.00"){
             self.timer?.invalidate()
             
-            self.performSegue(withIdentifier: "resultV",sender: winNum)
+            self.performSegue(withIdentifier: "resultV",sender: nil)
             
             
         }
