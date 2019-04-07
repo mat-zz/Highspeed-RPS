@@ -26,10 +26,9 @@ class ViewController: UIViewController {
     
     var oppHandNum: Int = 0
     
-    var winNum: Int = 0
+    var winNum:Int = 0
     
-    
-    
+
     @IBOutlet var timeLabel:UILabel!
     @IBOutlet var startButton:UIButton?
     @IBOutlet var oppHand:UIImageView?
@@ -48,18 +47,11 @@ class ViewController: UIViewController {
         imgArray.append(Simg)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any? ){
         if segue.identifier == "resultV" {
-            
-            let next = segue.destination as? ResultViewController
-
-            next!.resultN? = sender as! Int
-            
+            let next = segue.destination as! ResultViewController
+            next.resultN? = winNum
         }
-        
-        
-        
     }
     
     
@@ -87,22 +79,16 @@ class ViewController: UIViewController {
         let dateF:DateFormatter = DateFormatter()
         dateF.dateFormat = "ss.SS"
         
-        
         let dateT:Date = dateF.date(from: (timeLabel!.text)!)!
         
         var dup2 = Date(timeInterval: -0.1, since: dateT)
         
-        self.timeLabel!.text = dateF.string(from: dup2)
-        
-        
-        
         if (self.timeLabel?.text == "00.00"){
-            self.timer?.invalidate()
-            
-            self.performSegue(withIdentifier: "resultV",sender: nil)
-            
+            timer.invalidate()
+            self.performSegue(withIdentifier: "resultV",sender:winNum)
             
         }
+        timeLabel!.text = dateF.string(from: dup2)
         
     }
     

@@ -13,11 +13,11 @@ import UIKit
 
 class ResultViewController :UIViewController{
     
-    var resultN: Int?
+    var resultN:Int! = 0
     
     var userDefaults = UserDefaults.standard
     
-    var getpHighScore:Int!
+    var getpHighScore:Int = 0
     
     @IBOutlet var resultLabel:UILabel?
     @IBOutlet var highScoreLabel:UILabel?
@@ -29,24 +29,19 @@ class ResultViewController :UIViewController{
         super.viewDidLoad()
         
         resultLabel?.text = "Result:" + String(resultN!)
-        
-        getpHighScore? = (userDefaults.array(forKey: "pHighScore") as! Int)
-        
+        userDefaults.register(defaults: ["pHighScore":0])
+        getpHighScore = userDefaults.object(forKey: "pHighScore") as! Int
         highScoreLabel?.text = "HighScore:" + String(getpHighScore)
         
         
     }
 
-    
     @IBAction func playAgain(sender: UIButton){
         
-        if (getpHighScore == nil || getpHighScore < resultN!){
-            
+        if (getpHighScore == 0 || getpHighScore < resultN!){
             var highScore: Int = resultN!
-            
             userDefaults.set(resultN!, forKey: "pHighScore")
         }
-        
         UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
         
         
